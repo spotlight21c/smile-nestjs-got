@@ -5,10 +5,7 @@ import { firstValueFrom, lastValueFrom, toArray } from 'rxjs';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 import { HttpModule } from '../lib/http.module';
 import { HttpService } from '../lib/http.service';
-import type {
-  HttpModuleOptions,
-  HttpModuleOptionsFactory,
-} from '../lib/interfaces';
+import type { HttpModuleOptions, HttpModuleOptionsFactory } from '../lib/interfaces';
 import { PaginationService } from '../lib/pagination.service';
 import { StreamService } from '../lib/stream.service';
 
@@ -90,40 +87,30 @@ describe('HttpModule (e2e)', () => {
   });
 
   it('performs a GET and parses JSON into an Observable', async () => {
-    const response = await firstValueFrom(
-      http.get<{ hello: string; method: string }>(`${baseUrl}/json`),
-    );
+    const response = await firstValueFrom(http.get<{ hello: string; method: string }>(`${baseUrl}/json`));
     expect(response.statusCode).toBe(200);
     expect(response.body).toEqual({ hello: 'world', method: 'GET' });
   });
 
   it('exposes axios-compatible response aliases (data/status/statusText)', async () => {
-    const response = await firstValueFrom(
-      http.get<{ hello: string }>(`${baseUrl}/json`),
-    );
+    const response = await firstValueFrom(http.get<{ hello: string }>(`${baseUrl}/json`));
     expect(response.data).toEqual(response.body);
     expect(response.status).toBe(response.statusCode);
     expect(response.statusText).toBe(response.statusMessage);
   });
 
   it('supports the axios-style request() method', async () => {
-    const response = await firstValueFrom(
-      http.request<{ hello: string }>({ url: `${baseUrl}/json` }),
-    );
+    const response = await firstValueFrom(http.request<{ hello: string }>({ url: `${baseUrl}/json` }));
     expect(response.data).toEqual({ hello: 'world', method: 'GET' });
   });
 
   it('paginates across pages with pagination.all', async () => {
-    const items = await firstValueFrom(
-      http.pagination.all<number>(`${baseUrl}/page/1`),
-    );
+    const items = await firstValueFrom(http.pagination.all<number>(`${baseUrl}/page/1`));
     expect(items).toEqual([10, 11, 20, 21, 30, 31]);
   });
 
   it('paginates item-by-item with pagination.each', async () => {
-    const items = await lastValueFrom(
-      http.pagination.each<number>(`${baseUrl}/page/1`).pipe(toArray()),
-    );
+    const items = await lastValueFrom(http.pagination.each<number>(`${baseUrl}/page/1`).pipe(toArray()));
     expect(items).toEqual([10, 11, 20, 21, 30, 31]);
   });
 
@@ -146,9 +133,7 @@ describe('HttpModule (e2e)', () => {
 
   it('lets per-request options override the JSON default (text)', async () => {
     // No cast needed: the text overload types response.body as string.
-    const response = await firstValueFrom(
-      http.get(`${baseUrl}/json`, { responseType: 'text' }),
-    );
+    const response = await firstValueFrom(http.get(`${baseUrl}/json`, { responseType: 'text' }));
     expect(typeof response.body).toBe('string');
     expect(JSON.parse(response.body)).toEqual({
       hello: 'world',
@@ -157,9 +142,7 @@ describe('HttpModule (e2e)', () => {
   });
 
   it('lets per-request options override the JSON default (buffer)', async () => {
-    const response = await firstValueFrom(
-      http.get(`${baseUrl}/json`, { responseType: 'buffer' }),
-    );
+    const response = await firstValueFrom(http.get(`${baseUrl}/json`, { responseType: 'buffer' }));
     expect(response.body).toBeInstanceOf(Uint8Array);
     expect(JSON.parse(Buffer.from(response.body).toString())).toEqual({
       hello: 'world',
@@ -188,9 +171,7 @@ describe('HttpModule (e2e)', () => {
     }).compile();
 
     const asyncHttp = moduleRef.get(HttpService);
-    const response = await firstValueFrom(
-      asyncHttp.get<Record<string, string>>(`${baseUrl}/echo-headers`),
-    );
+    const response = await firstValueFrom(asyncHttp.get<Record<string, string>>(`${baseUrl}/echo-headers`));
     expect(response.body['x-test']).toBe('async');
   });
 
@@ -206,9 +187,7 @@ describe('HttpModule (e2e)', () => {
     }).compile();
 
     const classHttp = moduleRef.get(HttpService);
-    const response = await firstValueFrom(
-      classHttp.get<Record<string, string>>(`${baseUrl}/echo-headers`),
-    );
+    const response = await firstValueFrom(classHttp.get<Record<string, string>>(`${baseUrl}/echo-headers`));
     expect(response.body['x-test']).toBe('use-class');
   });
 
@@ -242,9 +221,7 @@ describe('HttpModule (e2e)', () => {
     const requestReceived = new Promise<void>((r) => (onSlowRequest = r));
     const controller = new AbortController();
 
-    const promise = firstValueFrom(
-      http.get(`${baseUrl}/slow`, { signal: controller.signal }),
-    );
+    const promise = firstValueFrom(http.get(`${baseUrl}/slow`, { signal: controller.signal }));
     await requestReceived;
     controller.abort();
 

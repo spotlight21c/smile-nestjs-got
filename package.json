@@ -47,7 +47,7 @@
     "MIGRATION.md"
   ],
   "engines": {
-    "node": ">=20.3"
+    "node": ">=20.19"
   },
   "peerDependencies": {
     "@nestjs/common": "^10.0.0 || ^11.0.0",
@@ -74,5 +74,5 @@
     "unplugin-swc": "^1.5.9",
     "vitest": "^2.0.0"
   },
-  "packageManager": "pnpm@11.8.0"
+  "packageManager": "pnpm@10.15.0"
 }

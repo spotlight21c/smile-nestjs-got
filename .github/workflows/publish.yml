@@ -42,6 +42,7 @@ jobs:
           pnpm add -D
           @nestjs/common@^${{ matrix.nest-major }}.0.0
           @nestjs/core@^${{ matrix.nest-major }}.0.0
+          @nestjs/platform-express@^${{ matrix.nest-major }}.0.0
           @nestjs/testing@^${{ matrix.nest-major }}.0.0
 
       - name: Lint
