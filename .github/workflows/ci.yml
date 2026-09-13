@@ -44,13 +44,17 @@ jobs:
         run: npx commitlint --last --verbose
 
   unit-test:
-    name: Unit/Integration (Node ${{ matrix.node-version }}, Nest ${{ matrix.nest-major }})
+    name: Unit/Integration (Node ${{ matrix.node-version }}, Nest ${{ matrix.nest-major }}, got ${{ matrix.got-major }})
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
         node-version: [20.19, 22.x, 24.x, 26.x]
         nest-major: [10, 11]
+        got-major: [14, 15]
+        exclude:
+          - node-version: 20.19
+            got-major: 15
 
     steps:
       - name: Checkout
@@ -68,13 +72,14 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Align NestJS major version
+      - name: Align peer dependency versions
         run: >
           pnpm add -D
           @nestjs/common@^${{ matrix.nest-major }}.0.0
           @nestjs/core@^${{ matrix.nest-major }}.0.0
           @nestjs/platform-express@^${{ matrix.nest-major }}.0.0
           @nestjs/testing@^${{ matrix.nest-major }}.0.0
+          got@^${{ matrix.got-major }}.0.0
 
       - name: Lint
         run: pnpm lint

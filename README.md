@@ -22,7 +22,7 @@ The `@nestjs/axios`-compatible surface isn't the reason to switch — it's what 
 
 ## Requirements
 
-- Node.js **>= 20.3** (`AbortSignal.any` is used internally)
+- Node.js **>= 20.19** (`AbortSignal.any` is used internally; got ^15 requires Node >= 22)
 - got **^14 || ^15** (peer dependency)
 
 > This package is published as CommonJS and loads got via dynamic `import()`, so it works in both CommonJS and ESM NestJS applications without any extra setup.
