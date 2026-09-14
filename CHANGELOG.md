@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.0](https://github.com/spotlight21c/smile-nestjs-got/compare/v0.1.1...v0.2.0) (2026-09-14)
+
+
+### Features
+
+* add support for got v16 ([#2](https://github.com/spotlight21c/smile-nestjs-got/issues/2)) ([00b38e4](https://github.com/spotlight21c/smile-nestjs-got/commit/00b38e4dcdf441d263f951facc4c46774f961494))
+
 ## [0.1.1](https://github.com/spotlight21c/smile-nestjs-got/compare/v0.1.0...v0.1.1) (2026-09-13)
 
 
